@@ -1,9 +1,10 @@
 const { I } = inject();
 
 module.exports = {
-  myAccountHeader: {css: '#My account'},
+  AccountHeader: ('My account' ),
 
-  verifyAcountHeader (){
-    I.see(this.myAccountHeader);
+  verifyAccountHeader() {
+    I.see(this.AccountHeader)
   }
+
 }

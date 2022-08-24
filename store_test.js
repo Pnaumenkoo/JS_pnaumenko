@@ -1,6 +1,3 @@
-const { Test } = require("mocha");
-const { myAccountHeader } = require("./pages/myAccount");
-
 let user = {
     firstName: 'Oleg',
     lastName: 'Test',
@@ -16,34 +13,22 @@ let user = {
 
 Feature('store');
 
-Scenario ('test something', ({ I, homePage, authPage, createAccountPage, myAccountPage}) => {
+Scenario('test something', ({ I, homePage, authPage, createAccountPage, myAccountPage }) => {
     I.opernStore();
     homePage.clickSignIn();
-    authPage.fillEmail(Date.now()+'@test.com');
+    authPage.fillEmail(Date.now() + '@test.com');
     authPage.clickCreateAccount();
     createAccountPage.fillNewAccountFields(user);
     createAccountPage.clickRegister();
-    myAccountPage.verifyAcountHeader();
-    pause();
-    
-
-   /* the same as ->
-    I.see ('Women');
-    I.click({css:'div.header_user_info'});
-    I.waitForVisible ({css: '#email_create'});
-    I.fillField ({css: '#email_create'}, '23082022@test.com');*/
-
-}).tag ('auth');
+    myAccountPage.verifyAccountHeader();
+   
 
 
 
+    /* the same as ->
+     I.see ('Women');
+     I.click({css:'div.header_user_info'});
+     I.waitForVisible ({css: '#email_create'});
+     I.fillField ({css: '#email_create'}, '23082022@test.com');*/
 
-
-
-
-xScenario ('grab something', async ({ I }) => {
-    I.amOnPage('http://automationpractice.com/index.php?id_product=3&controller=product');
-    let price = await I.grabTextFrom({css: '#our_price_display'});
-    console.log (price)
-
-}).tag ('grab');
+}).tag('auth');
