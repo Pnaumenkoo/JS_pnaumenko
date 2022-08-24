@@ -15,7 +15,7 @@ exports.config = {
       url: 'http://localhost',
       show: true,
       browser: 'chromium',
-      timeout: 20000,
+      timeout: 30000,
       waitForTimeout: 20000,
       waitForNavigation: 'networkidle',
     }
@@ -24,7 +24,8 @@ exports.config = {
     I: './steps_file.js',
     homePage: './pages/home.js',
     authPage: './pages/auth.js',
-    createAccountPage: './pages/createAccount.js'
+    createAccountPage: './pages/createAccount.js',
+    myAccountPage: './pages/myAccount.js',
   },
   name: 'JS_pnaumenko'
 }
