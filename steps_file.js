@@ -2,7 +2,7 @@
 
 module.exports = function() {
   return actor({
-opernStore () {
+openStore () {
   this.amOnPage ('http://automationpractice.com/index.php')
 }
     // Define custom steps here, use 'this' to access default methods of I.

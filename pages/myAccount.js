@@ -1,10 +1,11 @@
 const { I } = inject();
 
 module.exports = {
-  AccountHeader: ('My account' ),
+  accountHeader: ('My account' ),
 
   verifyAccountHeader() {
-    I.see(this.AccountHeader)
+    I.waitForText(this.accountHeader);
+    I.see(this.accountHeader);
   }
 
 }

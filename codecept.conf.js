@@ -18,6 +18,10 @@ exports.config = {
       timeout: 30000,
       waitForTimeout: 20000,
       waitForNavigation: 'networkidle',
+      
+    },
+    "ChaiWrapper" : {
+      require: "codeceptjs-chai"
     }
   },
   include: {
@@ -26,6 +30,7 @@ exports.config = {
     authPage: './pages/auth.js',
     createAccountPage: './pages/createAccount.js',
     myAccountPage: './pages/myAccount.js',
+    productPage: './pages/product.js',
   },
   name: 'JS_pnaumenko'
 }
