@@ -1,6 +1,8 @@
 const { values } = require("lodash");
 const { extGlobChars } = require("picomatch/lib/constants");
 const { catchError } = require("rxjs");
+const cart = require("./pages/cart");
+const { _waitforCartLoad } = require("./pages/product");
 
 let user = {
     firstName: 'Oleg',
@@ -32,7 +34,7 @@ xScenario('create account', ({ I, homePage, authPage, createAccountPage, myAccou
 }).tag('reg');
 
 
-Scenario('buy product', async ({ I, homePage, authPage, myAccountPage, productPage }) => {
+Scenario('buy product', async ({ I, homePage, authPage, myAccountPage, productPage, cartPage }) => {
     homePage.clickSignIn();
     authPage.login('1661344566222@test.com', '123456789A');
     myAccountPage.verifyAccountHeader();
@@ -40,17 +42,39 @@ Scenario('buy product', async ({ I, homePage, authPage, myAccountPage, productPa
     let productPrice = await productPage.getProductPrice();
     console.log(productPrice);
 
-    //I.assertEqual(current value 29.00, expected value 29.00 from a cart, 'Prices are different')
+    productPage.clickAddToCart();
+    productPage.verifyCart();
 
+    let totalShippingPrice = await cartPage.getTotalShippingPrice();
+    console.log(totalShippingPrice);
 
-    //create object gpa'Product page', add a product to a cart -> press checkout
-    //from product page grab price gpa (assertEqual), 
-    //compare a price to total price in shopping-cart summary (const=total shiping) -> grab shipping price, grab total price,
-    //compare 29=29 assertEqual
-    //click on checkbox (terms of service )-> procced to checkout ->choose payment-> confirm order
-    //console ORDER REFERENCE -sub string 27-30 element
+    let totalTaxPrice = await cartPage.getTotalTaxPrice();
+    console.log(totalTaxPrice);
+
+    let totalProductPrice = await cartPage.getTotalProductPrice();
+    I.getNumericPrice(totalProductPrice);
+    console.log(totalProductPrice);
+
+    cartPage.verifyCartCheckout();
+
+    let totalProductCartPrice = await cartPage.getTotalProductCartPrice();
+    I.getNumericPrice(totalProductCartPrice);
+    console.log(totalProductCartPrice);
+
+    cartPage.selectPaymentMethod();
+    cartPage.confirmYourOrder();
+
+   /* let orderReferenceMsg = await cartPage.getReferenceMsg()
+    console.log (orderReferenceMsg);*/
+
+    I.assertEqual(totalProductPrice, totalProductCartPrice, 'Prices are not in match');
+
 
 }).tag('buy');
+
+
+     //I.assertEqual(current value 29.00, expected value 29.00 from a cart, 'Prices are different')
+
 
 /*After(({ I }) => {
     I.openStore();
