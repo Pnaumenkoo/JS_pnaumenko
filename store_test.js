@@ -40,15 +40,18 @@ Scenario('buy product', async ({ I, homePage, authPage, myAccountPage, productPa
     myAccountPage.verifyAccountHeader();
     I.amOnPage('http://automationpractice.com/index.php?id_product=2&controller=product');
     let productPrice = await productPage.getProductPrice();
+    I.getNumericPrice(productPrice);
     console.log(productPrice);
 
     productPage.clickAddToCart();
     productPage.verifyCart();
 
     let totalShippingPrice = await cartPage.getTotalShippingPrice();
+    I.getNumericPrice(totalShippingPrice);
     console.log(totalShippingPrice);
 
     let totalTaxPrice = await cartPage.getTotalTaxPrice();
+    I.getNumericPrice(totalTaxPrice);
     console.log(totalTaxPrice);
 
     let totalProductPrice = await cartPage.getTotalProductPrice();
@@ -64,16 +67,14 @@ Scenario('buy product', async ({ I, homePage, authPage, myAccountPage, productPa
     cartPage.selectPaymentMethod();
     cartPage.confirmYourOrder();
 
-   /* let orderReferenceMsg = await cartPage.getReferenceMsg()
-    console.log (orderReferenceMsg);*/
-
     I.assertEqual(totalProductPrice, totalProductCartPrice, 'Prices are not in match');
 
+    let referenceCode = await cartPage.getConfirmationReference();
+    console.log(referenceCode);
 
 }).tag('buy');
 
 
-     //I.assertEqual(current value 29.00, expected value 29.00 from a cart, 'Prices are different')
 
 
 /*After(({ I }) => {

@@ -9,7 +9,7 @@ module.exports = {
   totalShippingPrice: { css: '#total_shipping' },
   totalTaxPrice: { css: '#total_tax' },
   totalProductCartPrice: { css: '#total_price_container' },
-  //orderReferenceMsg: (''),
+  orderReferenceMsg: { css: '#div.box' },
 
 
   async getTotalShippingPrice() {
@@ -52,14 +52,22 @@ module.exports = {
     I.click(this.confirmOrder);
   },
 
- /* async getReferenceMsg() {
-    return await I.grabTextFromAll();
-  }*/
+  async getConfirmationReference() {
+    let orderReference = await I.grabTextFromAll(this.orderReferenceMsg);
+    let orderReferenceString = orderReference.join();
+    let referenceCodeSearch = orderReferenceString.search("reference");
+    let referenceCode = orderReferenceString.slice(referenceCodeSearch + 10, referenceCodeSearch + 20);
+    return referenceCode;
+  }
+  
 };
 
+//let string = 'our text';
+//let referenceCode = string.slice(180,189);
+//console.log(referenceCode)
 
 
-  //I.assertEqual(current value 27.00, expected value 27.00 from a cart, 'Prices are different')
+
 
 
 
