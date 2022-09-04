@@ -1,7 +1,7 @@
 const { I } = inject();
 
 module.exports = {
-  accountHeader: ('My account' ),
+  accountHeader: 'My account',
 
   verifyAccountHeader() {
     I.waitForText(this.accountHeader);

@@ -16,13 +16,17 @@ exports.config = {
       show: true,
       browser: 'chromium',
       timeout: 30000,
-      waitForTimeout: 20000,
+      waitForTimeout: 30000,
       waitForNavigation: 'networkidle',
-      
+
     },
-    "ChaiWrapper" : {
+    "ChaiWrapper": {
       require: "codeceptjs-chai"
-    }
+    },
+    PriceConverter: {
+      require: './helpers/priceConverter.js',
+    },
+
   },
   include: {
     I: './steps_file.js',
@@ -31,6 +35,7 @@ exports.config = {
     createAccountPage: './pages/createAccount.js',
     myAccountPage: './pages/myAccount.js',
     productPage: './pages/product.js',
+    cartPage: './pages/cart.js'
   },
   name: 'JS_pnaumenko'
 }
