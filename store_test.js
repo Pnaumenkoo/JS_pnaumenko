@@ -1,9 +1,3 @@
-const { values } = require("lodash");
-const { extGlobChars } = require("picomatch/lib/constants");
-const { catchError } = require("rxjs");
-const cart = require("./pages/cart");
-const { _waitforCartLoad } = require("./pages/product");
-
 let user = {
     firstName: 'Oleg',
     lastName: 'Test',
@@ -39,29 +33,25 @@ Scenario('buy product', async ({ I, homePage, authPage, myAccountPage, productPa
     authPage.login('1661344566222@test.com', '123456789A');
     myAccountPage.verifyAccountHeader();
     I.amOnPage('http://automationpractice.com/index.php?id_product=2&controller=product');
+
     let productPrice = await productPage.getProductPrice();
-    I.getNumericPrice(productPrice);
     console.log(productPrice);
 
     productPage.clickAddToCart();
     productPage.verifyCart();
 
     let totalShippingPrice = await cartPage.getTotalShippingPrice();
-    I.getNumericPrice(totalShippingPrice);
     console.log(totalShippingPrice);
 
     let totalTaxPrice = await cartPage.getTotalTaxPrice();
-    I.getNumericPrice(totalTaxPrice);
     console.log(totalTaxPrice);
 
     let totalProductPrice = await cartPage.getTotalProductPrice();
-    I.getNumericPrice(totalProductPrice);
     console.log(totalProductPrice);
 
     cartPage.verifyCartCheckout();
 
     let totalProductCartPrice = await cartPage.getTotalProductCartPrice();
-    I.getNumericPrice(totalProductCartPrice);
     console.log(totalProductCartPrice);
 
     cartPage.selectPaymentMethod();
@@ -71,12 +61,11 @@ Scenario('buy product', async ({ I, homePage, authPage, myAccountPage, productPa
 
     let referenceCode = await cartPage.getConfirmationReference();
     console.log(referenceCode);
+   
 
 }).tag('buy');
 
 
 
 
-/*After(({ I }) => {
-    I.openStore();
-});*/ //eg. after finishing scenario -> logout, delete/clean files
+

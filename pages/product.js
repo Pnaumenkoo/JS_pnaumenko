@@ -3,16 +3,19 @@ const { I } = inject();
 module.exports = {
   productPrice: { css: '#our_price_display' },
   addToCartButton: { css: '#add_to_cart' },
-  cartCheckout: ('Proceed to checkout'),
+  cartCheckout: 'Proceed to checkout',
 
   async getProductPrice() {
-    return await I.grabTextFrom(this.productPrice);
+    let productPriceAmount = await I.grabTextFrom(this.productPrice);
+    let numberProductPrice = productPriceAmount.slice(1);
+    return Number(numberProductPrice);
     
   },
 
-  clickAddToCart() {
+   clickAddToCart() {
+    I.waitForVisible(this.addToCartButton);
     I.click(this.addToCartButton);
-    I.wait(3)
+
   },
 
   verifyCart() {

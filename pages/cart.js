@@ -1,7 +1,7 @@
 const { I } = inject();
 
 module.exports = {
-  proceedToCheckoutButton: ('Proceed to checkout'),
+  proceedToCheckoutButton: 'Proceed to checkout',
   termsOfServiceCheckbox: { css: '#cgv' },
   paymentMethod: ('Pay by bank wire'),
   confirmOrder: ('I confirm my order'),
@@ -13,15 +13,23 @@ module.exports = {
 
 
   async getTotalShippingPrice() {
-    return await I.grabTextFrom(this.totalShippingPrice);
+    let totalShippingPriceAmount = await I.grabTextFrom(this.totalShippingPrice);
+    let numberTotalShippingPrice = totalShippingPriceAmount.slice(1);
+    return Number(numberTotalShippingPrice);
   },
 
   async getTotalTaxPrice() {
-    return await I.grabTextFrom(this.totalTaxPrice);
+    let totalTaxPriceAmount = await I.grabTextFrom(this.totalTaxPrice);
+    let numberTotalTaxPrice = totalTaxPriceAmount.slice(1);
+    return Number(numberTotalTaxPrice);
   },
 
+
+
   async getTotalProductPrice() {
-    return await I.grabTextFrom(this.totalProductPrice);
+    let totalProductPriceAmount = await I.grabTextFrom(this.totalProductPrice);
+    let numberTotalProductPrice = totalProductPriceAmount.slice(1);
+    return Number(numberTotalProductPrice);
   },
 
 
@@ -33,7 +41,7 @@ module.exports = {
     I.see(this.proceedToCheckoutButton);
     I.click(this.proceedToCheckoutButton);
 
-    I.wait(2);
+    I.waitForText(this.proceedToCheckoutButton);
     I.click(this.termsOfServiceCheckbox);
     I.waitForText(this.proceedToCheckoutButton);
     I.see(this.proceedToCheckoutButton);
@@ -41,7 +49,9 @@ module.exports = {
   },
 
   async getTotalProductCartPrice() {
-    return await I.grabTextFrom(this.totalProductCartPrice);
+    let totalProductCartPriceAmount = await I.grabTextFrom(this.totalProductCartPrice);
+    let numberTotalProductCartPrice = totalProductCartPriceAmount.slice(1);
+    return Number(numberTotalProductCartPrice);
   },
 
   selectPaymentMethod() {
@@ -49,6 +59,7 @@ module.exports = {
   },
 
   confirmYourOrder() {
+    I.waitForText(this.confirmOrder);
     I.click(this.confirmOrder);
   },
 
@@ -59,17 +70,5 @@ module.exports = {
     let referenceCode = orderReferenceString.slice(referenceCodeSearch + 10, referenceCodeSearch + 20);
     return referenceCode;
   }
-  
+
 };
-
-//let string = 'our text';
-//let referenceCode = string.slice(180,189);
-//console.log(referenceCode)
-
-
-
-
-
-
-
-
