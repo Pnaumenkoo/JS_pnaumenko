@@ -1,7 +1,3 @@
-const { values } = require("lodash");
-const { extGlobChars } = require("picomatch/lib/constants");
-const { catchError } = require("rxjs");
-
 let user = {
     firstName: 'Oleg',
     lastName: 'Test',
@@ -32,26 +28,44 @@ xScenario('create account', ({ I, homePage, authPage, createAccountPage, myAccou
 }).tag('reg');
 
 
-Scenario('buy product', async ({ I, homePage, authPage, myAccountPage, productPage }) => {
+Scenario('buy product', async ({ I, homePage, authPage, myAccountPage, productPage, cartPage }) => {
     homePage.clickSignIn();
     authPage.login('1661344566222@test.com', '123456789A');
     myAccountPage.verifyAccountHeader();
     I.amOnPage('http://automationpractice.com/index.php?id_product=2&controller=product');
+
     let productPrice = await productPage.getProductPrice();
     console.log(productPrice);
 
-    //I.assertEqual(current value 29.00, expected value 29.00 from a cart, 'Prices are different')
+    productPage.clickAddToCart();
+    productPage.verifyCart();
 
+    let totalShippingPrice = await cartPage.getTotalShippingPrice();
+    console.log(totalShippingPrice);
 
-    //create object gpa'Product page', add a product to a cart -> press checkout
-    //from product page grab price gpa (assertEqual), 
-    //compare a price to total price in shopping-cart summary (const=total shiping) -> grab shipping price, grab total price,
-    //compare 29=29 assertEqual
-    //click on checkbox (terms of service )-> procced to checkout ->choose payment-> confirm order
-    //console ORDER REFERENCE -sub string 27-30 element
+    let totalTaxPrice = await cartPage.getTotalTaxPrice();
+    console.log(totalTaxPrice);
+
+    let totalProductPrice = await cartPage.getTotalProductPrice();
+    console.log(totalProductPrice);
+
+    cartPage.verifyCartCheckout();
+
+    let totalProductCartPrice = await cartPage.getTotalProductCartPrice();
+    console.log(totalProductCartPrice);
+
+    cartPage.selectPaymentMethod();
+    cartPage.confirmYourOrder();
+
+    I.assertEqual(totalProductPrice, totalProductCartPrice, 'Prices are not in match');
+
+    let referenceCode = await cartPage.getConfirmationReference();
+    console.log(referenceCode);
+   
 
 }).tag('buy');
 
-/*After(({ I }) => {
-    I.openStore();
-});*/ //eg. after finishing scenario -> logout, delete/clean files
+
+
+
+
